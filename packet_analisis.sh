@@ -1,11 +1,8 @@
 #!/bin/bash
 
-
-#ping 1.1.1.1 
-counter=0
-while [ $counter -le 4 ];
+while [ 1 -gt 0 ];
 do
-  sleep 1
-  counter=$(expr $counter + 1 )
+
+  ping -c 5 -q 1.1.1.1 | tail -1 | cut -d ' ' -f 4 | tr \['/'] \[','] >> network_data.txt
+
 done
-echo KONIEC
