@@ -1,7 +1,14 @@
 #!/bin/bash
 
+IPADDRESS=$1 #if I pass $1 as argument in further functions, script will crash
+
+CHECKIP=$( ip route get $IPADDRESS &>/dev/null ; echo $? )
+if [ $CHECKIP != 0 ]; then
+  exit
+fi
+
 ping_and_record(){
-  pinging_output=$(ping -c 3 -q 192.1.1.1 &>/dev/null)
+  pinging_output=$(ping -c 3 $IPADDRESS 2>/dev/null)
   if [ $? -eq 0 ]; then 
   echo "$pinging_output" | tail -1 | cut -d ' ' -f 4 | tr \['/'] \[','] >> network_data.txt
   return 0
