@@ -16,7 +16,7 @@ ping_and_record(){
   return 0
 else
   #here we can add some output indicating unavailability of host in text file
-  echo "0,0,0,0" >> $IPADDRESS-network_data.txt
+  echo "0,0,0,0,$DATE" >> $IPADDRESS-network_data.txt
   return 1
   fi
 }
