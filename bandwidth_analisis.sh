@@ -9,7 +9,7 @@ fi
 
 check_bandwidth(){
   DATE=$( date +"%D %T" )
-  checking_bandwidth_iperf=$( iperf3 -c $IPADDRESS -Z 2>/dev/null )
+  checking_bandwidth_iperf=$( iperf3 -c $IPADDRESS -Z -u 2>/dev/null )
   if [ $? -eq 0 ]; then 
     OUTPUT=$( echo "$checking_bandwidth_iperf" | tail -3 | head -1 | awk '{print $7}' )
     echo "$OUTPUT, $DATE" >> $IPADDRESS-bandwidth_data.txt
