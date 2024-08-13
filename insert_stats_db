@@ -1,0 +1,27 @@
+#!/bin/bash
+DB_USER=""
+DB_PASS=""
+DB_NAME=""
+DB_PING_TABLE=""
+DB_IPERF_TABLE=""
+mosquitto_sub -h localhost -t "stats/#" -v | while read -r topic message; do
+
+data="$message"
+
+IFS=',' read -r min avg max std_dev loss time <<< "$data"
+
+case "$topic" in
+	"stats/ping")
+		mysql -u"$DB_USER" -p"$DB_PASS" -D $DB_NAME -e "INSERT INTO $DB_PING_TABLE (min, avg, max, std_dev, loss, time) VALUES ($min, $avg, $max, $std_dev, $loss, '$time');"
+		echo "Record inserted!"
+		;;
+	"stats/iperf")
+		mysql -u"$DB_USER" -p"$DB_PASS" -D $DB_NAME -e "INSERT INTO $DB_IPERF_TABLE (min, avg, max, std_dev, loss, time) VALUES ($min, $avg, $max, $std_dev, $loss, '$time');"
+		echo "Record inserted!"
+		;;
+	*)
+		echo "Unknow MQTT topic: $topic"
+		;;
+esac
+		
+done
