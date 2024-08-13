@@ -1,10 +1,16 @@
 #!/bin/bash
 
-IPADDRESS=$1
+if [ -e ./netparams.conf ]; then
+  . ./netparams.conf
+else 
+  echo "Configuration file doesn't exist or its name was changed! Make sure proper file is placed in working directory and has a proper name."
+  exit 1
+fi
 
 CHECKIP=$( ip route get $IPADDRESS &>/dev/null ; echo $? )
 if [ $CHECKIP != 0 ]; then
-  exit
+  echo "Incorrect IP address!"
+  exit 1
 fi
 
 check_bandwidth(){
@@ -13,9 +19,11 @@ check_bandwidth(){
   if [ $? -eq 0 ]; then 
     OUTPUT=$( echo "$checking_bandwidth_iperf" | tail -3 | head -1 | awk '{print $7}' )
     echo "$OUTPUT, $DATE" >> $IPADDRESS-bandwidth_data.txt
+    mosquitto_pub -h $IP_BROKER -t stats/ping -m "$OUTPUT,$DATE"
     return 0 
   else
     echo "000,$DATE" >> $IPADDRESS-bandwidth_data.txt
+    mosquitto_pub -h $IP_BROKER -t stats/ping -m "000,$DATE"
     return 1
   fi
 }
