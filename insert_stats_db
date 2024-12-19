@@ -1,9 +1,23 @@
 #!/bin/bash
-DB_USER=""
-DB_PASS=""
-DB_NAME=""
-DB_PING_TABLE=""
-DB_IPERF_TABLE=""
+if [ -e ./db_params.conf ]; then
+  . ./db_params.conf 
+else 
+  echo "Configuration file doesn't exist or its name was changed! Make sure proper file is placed in working directory and has a proper name."
+  exit 1
+fi
+
+function check_variables(){
+  for var in "$@"
+  do
+    if [ -z "${!var}" ]; then
+      echo "$var was not assigned!"
+      exit 1 
+    fi
+  done
+
+}
+check_variables DB_NAME DB_PASS DB_USER DB_PING_TABLE DB_IPERF_TABLE 
+
 mosquitto_sub -h localhost -t "stats/#" -v | while read -r topic message; do
 
 data="$message"
