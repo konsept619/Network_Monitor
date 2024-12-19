@@ -1,8 +1,13 @@
 #!/bin/bash
 
-DB_USER="username"
-DB_PASS="password"
-DB_NAME="database_name"
+#conifguration designed for mariaDB/mysql
+
+if [ -e ./db_params.conf ]; then
+  . ./db_params.conf 
+else 
+  echo "Configuration file doesn't exist or its name was changed! Make sure proper file is placed in working directory and has a proper name."
+  exit 1
+fi
 
 CREATE_PING_TABLE="
 CREATE TABLE IF NOT EXISTS test_ping (
