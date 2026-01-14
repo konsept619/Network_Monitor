@@ -36,6 +36,62 @@ This project serves as a simplified, "under-the-hood" skeleton of professional m
 └── README.md
 
 ```
+## 🛠️ Prerequisites
+
+Ensure you have the following installed on your Linux machine:
+* **Bash** (v4.0 or higher)
+* **MySQL Server** (or MariaDB)
+* **iperf3** (for bandwidth testing)
+* **iputils-ping** (standard ping utility)
+
+---
+
+## ⚙️ Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/konsept619/Network_Monitor.git](https://github.com/konsept619/Network_Monitor.git)
+    cd Network_Monitor
+    ```
+
+2.  **Database Setup:**
+    Log into your MySQL and import the schema to create the necessary tables:
+    ```bash
+    mysql -u your_user -p < sql/create_db.sql
+    ```
+
+3.  **Configuration:**
+    Copy the example configuration file and fill in your actual database credentials (the `.conf` file is ignored by git for security):
+    ```bash
+    cp config/db_params.conf.example config/db_params.conf
+    nano config/db_params.conf
+    ```
+
+4.  **Run the monitor:**
+    Make sure scripts are executable and run the packet analyzer:
+    ```bash
+    chmod +x scripts/*.sh
+    ./scripts/packet_analysis.sh
+    ```
+
+---
+
+## 📊 Dashboard Visualization (Sample Output)
+
+The collected data is stored in the `network_stats` table. Here is an example of the structured output:
+
+| Timestamp           | Host        | Latency (ms) | Bandwidth (Mbps) | Status |
+|---------------------|-------------|--------------|------------------|--------|
+| 2026-01-14 12:00:01 | 8.8.8.8     | 12.4         | 940.2            | UP     |
+| 2026-01-14 12:05:01 | 1.1.1.1     | 8.1          | 935.5            | UP     |
+| 2026-01-14 12:10:01 | 8.8.8.8     | 15.1         | 910.0            | UP     |
+
+---
+
+## 🛡️ License
+
+This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICENSE) file for details.
+
 ---
 <!--
 TODO: Setup.sh/Makefile
