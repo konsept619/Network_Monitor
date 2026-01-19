@@ -53,19 +53,22 @@ Ensure you have the following installed on your Linux machine:
     git clone [https://github.com/konsept619/Network_Monitor.git](https://github.com/konsept619/Network_Monitor.git)
     cd Network_Monitor
     ```
-
-2.  **Database Setup:**
-    Log into your MySQL and import the schema to create the necessary tables:
-    ```bash
-    mysql -u your_user -p < sql/create_db.sql
-    ```
-
-3.  **Configuration:**
+    
+2.  **Configuration:**
     Copy the example configuration file and fill in your actual database credentials (the `.conf` file is ignored by git for security):
     ```bash
     cp config/db_params.conf.example config/db_params.conf
-    nano config/db_params.conf
+    vi config/db_params.conf
     ```
+
+3.  **Database Setup:**
+    Use the script to set up tables in your database. Credentials can by set with _db_params.conf_:
+    ```bash
+    chmod +x sql/create_db.sql
+    ./sql/create_db.sql
+    ```
+
+
 
 4.  **Run the monitor:**
     Make sure scripts are executable and run the packet analyzer:
