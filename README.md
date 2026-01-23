@@ -74,7 +74,12 @@ Ensure you have the following installed on your Linux machine:
     Make sure scripts are executable and run the packet analyzer:
     ```bash
     chmod +x scripts/*.sh
+
+    #for packet latency analysis 
     ./scripts/packet_analysis.sh
+
+    #for bandwidth analysis
+    ./scripts/bandwidth_analysis.sh
     ```
 
 ---
